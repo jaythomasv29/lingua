@@ -5,6 +5,9 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Onboarding() {
+  function handleGetStarted() {
+    console.log("Get Started Btn");
+  }
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
@@ -84,7 +87,7 @@ export default function Onboarding() {
           <TouchableOpacity
             className="bg-lingua-deep-purple rounded-[18px] py-4.5 flex-row items-center justify-center gap-2"
             activeOpacity={0.85}
-            onPress={() => {}}
+            onPress={handleGetStarted}
           >
             <Text
               className="text-white text-[16px]"
