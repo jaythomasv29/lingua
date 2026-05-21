@@ -1,0 +1,121 @@
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css";
+
+@import "nativewind/theme";
+
+@theme {
+  /* Colors */
+  --color-lingua-purple: #6c4ef5;
+  --color-lingua-deep-purple: #5838f6;
+  --color-lingua-blue: #4d88ff;
+  --color-lingua-green: #21c168;
+  --color-success: #2fc16b;
+  --color-warning: #ffc800;
+  --color-streak: #ff8a00;
+  --color-error: #ff4d4f;
+  --color-info: #4d88ff;
+  --color-primary: #0d132b;
+  --color-secondary: #687280;
+  --color-border: #e5e7eb;
+  --color-surface: #f6f7fb;
+  --color-background: #ffffff;
+
+  /* Font Families */
+  --font-sans: Poppins-Regular;
+  --font-medium: Poppins-Medium;
+  --font-semibold: Poppins-SemiBold;
+  --font-bold: Poppins-Bold;
+
+  /* Font Sizes */
+  --font-size-h1: 32px;
+  --font-size-h2: 24px;
+  --font-size-h3: 20px;
+  --font-size-h4: 16px;
+  --font-size-body-lg: 16px;
+  --font-size-body-md: 14px;
+  --font-size-body-sm: 13px;
+  --font-size-caption: 11px;
+}
+
+:root {
+  --color-lingua-purple: #6c4ef5;
+  --color-lingua-deep-purple: #5838f6;
+  --color-lingua-blue: #4d88ff;
+  --color-lingua-green: #21c168;
+  --color-success: #2fc16b;
+  --color-warning: #ffc800;
+  --color-streak: #ff8a00;
+  --color-error: #ff4d4f;
+  --color-info: #4d88ff;
+  --color-primary: #0d132b;
+  --color-secondary: #687280;
+  --color-border: #e5e7eb;
+  --color-surface: #f6f7fb;
+  --color-background: #ffffff;
+  --font-sans: Poppins-Regular;
+  --font-medium: Poppins-Medium;
+  --font-semibold: Poppins-SemiBold;
+  --font-bold: Poppins-Bold;
+}
+
+/* Color utilities — hardcoded for React Native (no CSS var() support at runtime) */
+@layer utilities {
+  .text-lingua-purple      { color: #6c4ef5; }
+  .text-lingua-deep-purple { color: #5838f6; }
+  .text-lingua-blue        { color: #4d88ff; }
+  .text-lingua-green       { color: #21c168; }
+  .text-success     { color: #2fc16b; }
+  .text-warning     { color: #ffc800; }
+  .text-streak      { color: #ff8a00; }
+  .text-error       { color: #ff4d4f; }
+  .text-info        { color: #4d88ff; }
+  .text-primary     { color: #0d132b; }
+  .text-secondary   { color: #687280; }
+  .text-border      { color: #e5e7eb; }
+  .text-surface     { color: #f6f7fb; }
+  .text-background  { color: #ffffff; }
+
+  .bg-lingua-purple        { background-color: #6c4ef5; }
+  .bg-lingua-deep-purple   { background-color: #5838f6; }
+  .bg-lingua-blue          { background-color: #4d88ff; }
+  .bg-lingua-green         { background-color: #21c168; }
+  .bg-success       { background-color: #2fc16b; }
+  .bg-warning       { background-color: #ffc800; }
+  .bg-streak        { background-color: #ff8a00; }
+  .bg-error         { background-color: #ff4d4f; }
+  .bg-info          { background-color: #4d88ff; }
+  .bg-primary       { background-color: #0d132b; }
+  .bg-secondary     { background-color: #687280; }
+  .bg-border        { background-color: #e5e7eb; }
+  .bg-surface       { background-color: #f6f7fb; }
+  .bg-background    { background-color: #ffffff; }
+
+  .border-lingua-purple        { border-color: #6c4ef5; }
+  .border-lingua-deep-purple   { border-color: #5838f6; }
+  .border-lingua-blue          { border-color: #4d88ff; }
+  .border-lingua-green         { border-color: #21c168; }
+  .border-success       { border-color: #2fc16b; }
+  .border-warning       { border-color: #ffc800; }
+  .border-streak        { border-color: #ff8a00; }
+  .border-error         { border-color: #ff4d4f; }
+  .border-info          { border-color: #4d88ff; }
+  .border-primary       { border-color: #0d132b; }
+  .border-secondary     { border-color: #687280; }
+  .border-border        { border-color: #e5e7eb; }
+  .border-surface       { border-color: #f6f7fb; }
+  .border-background    { border-color: #ffffff; }
+}
+
+/* Typography utilities */
+@layer components {
+  .h1 { font-family: Poppins-Bold;     font-size: 32px; line-height: 1.2; }
+  .h2 { font-family: Poppins-SemiBold; font-size: 24px; line-height: 1.3; }
+  .h3 { font-family: Poppins-SemiBold; font-size: 20px; line-height: 1.3; }
+  .h4 { font-family: Poppins-Medium;   font-size: 16px; line-height: 1.4; }
+
+  .body-lg { font-family: Poppins-Regular; font-size: 16px; line-height: 1.6; }
+  .body-md { font-family: Poppins-Regular; font-size: 14px; line-height: 1.6; }
+  .body-sm { font-family: Poppins-Regular; font-size: 13px; line-height: 1.6; }
+  .caption  { font-family: Poppins-Regular; font-size: 11px; line-height: 1.4; }
+}
