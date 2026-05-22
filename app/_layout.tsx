@@ -1,11 +1,42 @@
 import "../global.css";
 
-import { Stack } from "expo-router";
+import { ClerkProvider, useAuth } from "@clerk/expo";
+import { tokenCache } from "@clerk/expo/token-cache";
+import { Stack, useRouter, useSegments } from "expo-router";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 
 SplashScreen.preventAutoHideAsync();
+
+const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
+
+function InitialLayout() {
+  const { isSignedIn, isLoaded } = useAuth();
+  const segments = useSegments();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    const inAuthGroup = segments[0] === "(auth)";
+    const inOnboarding = segments[0] === "onboarding";
+
+    if (isSignedIn && (inAuthGroup || inOnboarding)) {
+      router.replace("/");
+    } else if (!isSignedIn && !inAuthGroup && !inOnboarding) {
+      router.replace("/onboarding");
+    }
+  }, [isSignedIn, isLoaded, segments]);
+
+  return (
+    <Stack
+      screenOptions={{ headerShown: false }}
+    >
+      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+    </Stack>
+  );
+}
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -23,5 +54,9 @@ export default function RootLayout() {
 
   if (!loaded) return null;
 
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return (
+    <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
+      <InitialLayout />
+    </ClerkProvider>
+  );
 }

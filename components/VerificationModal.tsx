@@ -9,18 +9,30 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
+  ActivityIndicator,
 } from "react-native";
-import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
 interface Props {
   visible: boolean;
   email: string;
   onClose: () => void;
+  onVerify: (code: string) => Promise<void>;
+  onResend?: () => Promise<void>;
+  error?: string | null;
 }
 
-export function VerificationModal({ visible, email, onClose }: Props) {
+export function VerificationModal({
+  visible,
+  email,
+  onClose,
+  onVerify,
+  onResend,
+  error,
+}: Props) {
   const [code, setCode] = useState("");
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [isResending, setIsResending] = useState(false);
   const inputRef = useRef<TextInput>(null);
 
   useEffect(() => {
@@ -31,11 +43,28 @@ export function VerificationModal({ visible, email, onClose }: Props) {
     }
   }, [visible]);
 
-  function handleCodeChange(text: string) {
+  async function handleCodeChange(text: string) {
     const digits = text.replace(/\D/g, "").slice(0, 6);
     setCode(digits);
     if (digits.length === 6) {
-      setTimeout(() => router.replace("/"), 300);
+      setIsVerifying(true);
+      try {
+        await onVerify(digits);
+      } catch {
+        // errors are surfaced via the error prop from the parent
+      } finally {
+        setIsVerifying(false);
+      }
+    }
+  }
+
+  async function handleResend() {
+    if (!onResend || isResending) return;
+    setIsResending(true);
+    try {
+      await onResend();
+    } finally {
+      setIsResending(false);
     }
   }
 
@@ -82,20 +111,31 @@ export function VerificationModal({ visible, email, onClose }: Props) {
                     i < code.length && styles.digitBoxFilled,
                   ]}
                 >
-                  <Text style={styles.digitText}>{code[i] ?? ""}</Text>
+                  {isVerifying && i === 5 ? (
+                    <ActivityIndicator size="small" color="#5838f6" />
+                  ) : (
+                    <Text style={styles.digitText}>{code[i] ?? ""}</Text>
+                  )}
                 </View>
               ))}
             </View>
           </TouchableWithoutFeedback>
 
+          {/* Error message */}
+          {error ? (
+            <Text style={styles.errorText}>{error}</Text>
+          ) : null}
+
           <View style={styles.resendRow}>
             <Text style={styles.resendText}>Didn't receive it? </Text>
-            <TouchableOpacity>
-              <Text style={styles.resendLink}>Resend code</Text>
+            <TouchableOpacity onPress={handleResend} disabled={isResending}>
+              <Text style={styles.resendLink}>
+                {isResending ? "Sending..." : "Resend code"}
+              </Text>
             </TouchableOpacity>
           </View>
 
-          {/* Hidden input that captures keypad input */}
+          {/* Hidden input */}
           <TextInput
             ref={inputRef}
             value={code}
@@ -187,6 +227,13 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-SemiBold",
     fontSize: 22,
     color: "#0d132b",
+  },
+  errorText: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 13,
+    color: "#e53935",
+    textAlign: "center",
+    marginTop: 12,
   },
   resendRow: {
     flexDirection: "row",
