@@ -1,12 +1,12 @@
 import { images } from "@/constants/images";
 import { Ionicons } from "@expo/vector-icons";
-import { Stack } from "expo-router";
+import { router, Stack } from "expo-router";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Onboarding() {
   function handleGetStarted() {
-    console.log("Get Started Btn");
+    router.push("/(auth)/sign-up");
   }
   return (
     <>
