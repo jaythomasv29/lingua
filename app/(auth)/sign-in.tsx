@@ -1,6 +1,7 @@
 import { SocialButton } from "@/components/SocialButton";
 import { VerificationModal } from "@/components/VerificationModal";
 import { images } from "@/constants/images";
+import { posthog } from "@/lib/posthog";
 import { useSignIn, useSSO } from "@clerk/expo";
 import { Ionicons } from "@expo/vector-icons";
 import * as WebBrowser from "expo-web-browser";
@@ -77,6 +78,10 @@ export default function SignIn() {
       return;
     }
     if (signIn.status === "complete") {
+      posthog.identify(email.trim(), {
+        $set: { email: email.trim() },
+      });
+      posthog.capture("user_signed_in", { method: "email" });
       await signIn.finalize({
         navigate: () => router.replace("/"),
       });
@@ -101,6 +106,7 @@ export default function SignIn() {
       });
       if (createdSessionId) {
         await setActive!({ session: createdSessionId });
+        posthog.capture("user_signed_in_social", { method: strategy });
         router.replace("/");
       }
     } catch (err: any) {
