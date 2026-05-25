@@ -1,4 +1,5 @@
 import { images } from "@/constants/images";
+import { posthog } from "@/lib/posthog";
 import { Ionicons } from "@expo/vector-icons";
 import { router, Stack } from "expo-router";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -6,6 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Onboarding() {
   function handleGetStarted() {
+    posthog.capture("onboarding_get_started_clicked");
     router.push("/(auth)/sign-up");
   }
   return (
